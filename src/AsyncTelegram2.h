@@ -207,6 +207,9 @@ public:
     // Forward a specific message to user or chat
     bool forwardMessage(const TBMessage &msg, const int64_t to_chatid);
 
+    // Send location to user, reply message if specify message_id
+    bool sendLocation(const int64_t& chat_id, double latitude, double longitude, int message_id);
+
     // Send message to a channel. This bot must be in the admin group
     bool sendToChannel(const char *channel, const char *message, bool silent = false);
 

@@ -653,6 +653,23 @@ bool AsyncTelegram2::forwardMessage(const TBMessage &msg, const int64_t to_chati
     return sendCommand("forwardMessage", payload.c_str());
 }
 
+bool AsyncTelegram2::sendLocation(const int64_t& chat_id, double latitude, double longitude, int message_id){
+    // DynamicJsonDocument root(BUFFER_SMALL);
+    JSON_DOC(BUFFER_SMALL);
+    root["chat_id"] = chat_id;
+    root["latitude"] = latitude;
+    root["longitude"] = longitude;
+    if (message_id != 0){
+        root["reply_to_message_id"] = message_id;
+    }
+    root.shrinkToFit();
+    String payload;
+    serializeJson(root, payload);
+    Serial.println("lat: "+String(latitude, 6) + ", lng: "+ String(longitude, 6));
+    return sendCommand("sendLocation", payload.c_str());
+}
+
+
 bool AsyncTelegram2::sendPhotoByUrl(const int64_t &chat_id, const char *url, const char *caption)
 {
     if (!strlen(url))
